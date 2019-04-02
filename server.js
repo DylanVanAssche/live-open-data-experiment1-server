@@ -15,6 +15,9 @@ class Server {
         this._currentEvents = {};
         this._eventsManager = new EventsManager();
         this._app = express();
+        let port = (process.env.PORT ||  4444);
+        var influx_host = (process.env.INFLUX_SERVICE_HOST || 'localhost' );
+
         this._influx = new Influx.InfluxDB({
             host: config.influx.host,
             database: config.influx.database,
@@ -62,7 +65,7 @@ class Server {
             })
 
         // Launch server
-        let server = this.app.listen(config.server.port, () => {
+        let server = this.app.listen(port, () => {
             let host = server.address().address;
             let port = server.address().port;
 
