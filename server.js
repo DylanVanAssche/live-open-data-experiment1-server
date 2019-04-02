@@ -52,24 +52,24 @@ class Server {
         // Setup Influx DB
         this.influx.getDatabaseNames()
             .then((names) => {
+                console.log(names)
                 if (!names.includes(config.influx.database)) {
                     return this.influx.createDatabase(config.influx.database);
                 }
             })
-            .then(() => {
-                // Launch server
-                let server = this.app.listen(config.server.port, () => {
-                    let host = server.address().address;
-                    let port = server.address().port;
-
-                    console.log("Server is listening at http://%s:%s", host, port);
-                });
-                // Start event generation
-                setInterval(this.generateNewEvents, config.eventGenerationInterval, this);
-            })
             .catch((err) => {
                 console.error(`Error creating Influx database! ${err.stack}`);
             })
+
+        // Launch server
+        let server = this.app.listen(config.server.port, () => {
+            let host = server.address().address;
+            let port = server.address().port;
+
+            console.log("Server is listening at http://%s:%s", host, port);
+        });
+        // Start event generation
+        setInterval(this.generateNewEvents, config.eventGenerationInterval, this);
 
         // Handle usage logging
         this.app.use((req, res, next) => {
@@ -121,7 +121,7 @@ class Server {
         });
 
         // Populate events
-        this.generateNewEvents(this);
+        //this.generateNewEvents(this);
 
         // Init usage
         this.saveUsage('setup');
