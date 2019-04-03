@@ -16,10 +16,10 @@ class Server {
         this._eventsManager = new EventsManager();
         this._app = express();
         let port = (process.env.PORT ||  4444);
-        var influx_host = (process.env.INFLUX_SERVICE_HOST || 'localhost' );
+        let influx_host = (process.env.INFLUX_SERVICE_HOST || 'localhost' );
 
         this._influx = new Influx.InfluxDB({
-            host: config.influx.host,
+            host: influx_host,
             database: config.influx.database,
             schema: [
                 {
