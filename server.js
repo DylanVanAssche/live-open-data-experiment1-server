@@ -55,7 +55,6 @@ class Server {
         // Setup Influx DB
         this.influx.getDatabaseNames()
             .then((names) => {
-                console.log(names)
                 if (!names.includes(config.influx.database)) {
                     return this.influx.createDatabase(config.influx.database);
                 }
@@ -191,6 +190,8 @@ class Server {
         ]).catch((err) => {
             console.error(`Error while saving data to InfluxDB! ${err.stack}`)
         })
+
+        this.saveUsage('generation')
     }
 
     /**
