@@ -6,7 +6,7 @@
     },
     "targetSize": 5000,
     "influx": {
-        "database": "pubsub_vs_polling"
+        "database": "experiment1"
     },
     "caching": {
         "enabled": true,
