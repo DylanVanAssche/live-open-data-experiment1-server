@@ -18,7 +18,7 @@ class Server {
         let port = (process.env.PORT ||  4444);
         let influx_host = (process.env.INFLUX_SERVICE_HOST || 'localhost' );
 
-        this._influx = new Influx.InfluxDB({
+/*        this._influx = new Influx.InfluxDB({
             host: influx_host,
             database: config.influx.database,
             schema: [
@@ -49,11 +49,11 @@ class Server {
                     ]
                 }
             ]
-        });
+        });*/
         this._listeners = [];
 
         // Setup Influx DB
-        this.influx.getDatabaseNames()
+        /*this.influx.getDatabaseNames()
             .then((names) => {
                 if (!names.includes(config.influx.database)) {
                     return this.influx.createDatabase(config.influx.database);
@@ -61,7 +61,7 @@ class Server {
             })
             .catch((err) => {
                 console.error(`Error creating Influx database! ${err.stack}`);
-            })
+            })*/
 
         // Launch server
         let server = this.app.listen(port, () => {
@@ -79,12 +79,12 @@ class Server {
             res.setHeader('Access-Control-Allow-Origin', '*');
 
             // Connection opened
-            this.saveUsage('open');
+            //this.saveUsage('open');
 
             // Connection closed
-            res.on('close', () => {
+            /*res.on('close', () => {
                 this.saveUsage('close');
-            });
+            });*/
 
             // Find the next resource that matches with the URL
             next();
@@ -109,10 +109,10 @@ class Server {
 
                 // Add client to listeners
                 this.listeners.push(res);
-                this.saveUsage('open');
+                //this.saveUsage('open');
                 res.on('close', () =>  {
                     this.listeners.splice(this.listeners.indexOf(res), 1);
-                    this.saveUsage('close');
+                    //this.saveUsage('close');
                 });
             }
             // If the client wants something else than SSE, return a HTTP 400 error
@@ -126,7 +126,7 @@ class Server {
         //this.generateNewEvents(this);
 
         // Init usage
-        this.saveUsage('setup');
+        //this.saveUsage('setup');
     }
 
     /**
@@ -191,7 +191,7 @@ class Server {
             console.error(`Error while saving data to InfluxDB! ${err.stack}`)
         })
 
-        this.saveUsage('generation')
+        //this.saveUsage('generation')
     }
 
     /**
@@ -216,7 +216,7 @@ class Server {
         });
 
         // Log with Influx DB
-        self.saveGenerationEvent('generation', size, provenTimestamp);
+        //self.saveGenerationEvent('generation', size, provenTimestamp);
     }
 
     // Getters & Setters

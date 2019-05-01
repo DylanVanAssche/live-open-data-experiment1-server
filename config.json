@@ -1,5 +1,5 @@
 {
-    "eventGenerationInterval": 5000,
+    "eventGenerationInterval": 1000,
     "indexOffsetRange": {
         "min": 0,
         "max": 20
